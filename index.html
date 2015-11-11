@@ -6,20 +6,30 @@
 
 	<style>
 	.sign {
-		color: blue;
+		color: RoyalBlue;
+	}
+	.exp {
+		color: DeepPink;
 	}
 	.exponent {
-		color: red;
+		color: DeepPink;
 	}
 	.exponent-bin {
-		color: red;
+		color: DeepPink;
+	}
+	.mant {
+		color: GreenYellow;
 	}
 	.mantissa {
-		color: pink;
+		color: GreenYellow;
 	}
 	.mantissa-bin {
-		color: pink;
+		color: GreenYellow;
 	}
+	.positive {
+		background-color: #eee;
+	}
+
 	</style>
 	<body>
 		<label for="input-decimal">Float number:</label>
@@ -28,6 +38,7 @@
 		<p>Sign: <span class="sign"/></p>
 		<p>Exponent: 127 + <span class="exponent" ></span> = <span class="exponent-sum" ></span> ===> <span class="exponent-bin"></span></p>
 		<p>Mantisa: <span class="mantissa-bin"></span></p>
+		<table class="mantisa-table"style="width:100%"></table>
 		<p>IEEE 754: <span class="sign"></span> <span class="exponent-bin"></span> <span class="mantissa-bin"></span></p>
 		<p>From binary: <span class="decimal-from-bin"></span></p>
 	</body>

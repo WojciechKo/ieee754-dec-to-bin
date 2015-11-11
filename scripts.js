@@ -6,7 +6,7 @@
       return print_details(event.target.value);
     });
     return print_details = function(decimal) {
-      var exp, exponent, exponent_str, float, from_bin, i, iterator, j, mant, mantissa, mantissa_str, ref, sign, temp;
+      var exp, exponent, exponent_str, float, from_bin, headers, i, iterator, j, k, mant, mantissa, mantissa_part, mantissa_rest, mantissa_rest_old, mantissa_str, ref, ref1, row, sign, summation, table, temp;
       float = parseFloat(decimal);
       $(".decimal").text(float);
       sign = float < 0.0 ? 1 : 0;
@@ -27,18 +27,43 @@
       $(".exponent").text(exponent);
       $(".exponent-sum").text(exponent + 127);
       $(".exponent-bin").text(exponent_str);
-      temp = mantissa - 1;
+      table = $(".mantisa-table");
+      table.empty();
+      headers = $('<tr></tr>');
+      headers.append($('<th></th>').text("Bit"));
+      headers.append($('<th></th>').text("Rest"));
+      headers.append($('<th></th>').text("Double rest"));
+      headers.append($('<th></th>').text("Value"));
+      headers.append($('<th></th>').text("Summation"));
+      table.append(headers);
+      mantissa_rest = mantissa - 1;
       iterator = 23;
       mantissa_str = '';
-      while (iterator > 0) {
-        temp *= 2;
-        iterator--;
-        if (temp >= 1) {
-          temp -= 1;
+      mantissa_part = 1;
+      summation = 0;
+      for (i = j = 0, ref = iterator; j < ref; i = j += 1) {
+        row = $('<tr></tr>');
+        mantissa_rest *= 2;
+        mantissa_part /= 2;
+        mantissa_rest_old = mantissa_rest;
+        if (mantissa_rest >= 1) {
+          mantissa_rest -= 1;
           mantissa_str += 1;
+          summation += mantissa_part;
+          row.addClass("positive");
         } else {
           mantissa_str += 0;
         }
+        row.append($('<td></td>').append($('<span></span>').addClass('mant').text(mantissa_str.slice(-1))));
+        row.append($('<td></td>').text(mantissa_rest_old / 2));
+        row.append($('<td></td>').text(mantissa_rest_old));
+        row.append($('<td></td>').text(mantissa_part));
+        if (mantissa_str.slice(-1) === '0') {
+          row.append($('<td></td>').text(summation + mantissa_part).css('color', 'Red'));
+        } else if (mantissa_str.slice(-1) === '1') {
+          row.append($('<td></td>').text(summation));
+        }
+        table.append(row);
       }
       $(".mantissa").text(mantissa);
       $(".mantissa-bin").text(mantissa_str);
@@ -46,7 +71,7 @@
       exp = Math.pow(2, parseInt(exponent_str, 2) - 127);
       mant = 1;
       temp = 1;
-      for (i = j = 0, ref = mantissa_str.length; j < ref; i = j += 1) {
+      for (i = k = 0, ref1 = mantissa_str.length; k < ref1; i = k += 1) {
         temp /= 2;
         if (mantissa_str[i] === '1') {
           mant += temp;

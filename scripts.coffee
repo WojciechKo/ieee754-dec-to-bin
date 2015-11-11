@@ -38,6 +38,15 @@ $ ->
 		$(".mantissa-bin").text mantissa_str
 		
 		$(".result").text "#{sign} #{exponent_str} #{mantissa_str}"
+				
+		exp = Math.pow(2, parseInt(exponent_str, 2) - 127)
+		mant = 1
+		temp = 1
+		for i in [0...mantissa_str.length] by 1
+			temp /= 2
+			mant += temp if mantissa_str[i] == '1'
 		
-		$(".confirmation").text "#{float} = #{mantissa} * 2^#{exponent}"
-		
+		from_bin = exp * mant
+		from_bin *= -1 if sign == 1
+			
+		$(".decimal-from-bin").text from_bin

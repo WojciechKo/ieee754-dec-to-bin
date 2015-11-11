@@ -6,7 +6,7 @@
       return print_details(event.target.value);
     });
     return print_details = function(decimal) {
-      var exponent, exponent_str, float, iterator, mantissa, mantissa_str, sign, temp;
+      var exp, exponent, exponent_str, float, from_bin, i, iterator, j, mant, mantissa, mantissa_str, ref, sign, temp;
       float = parseFloat(decimal);
       $(".decimal").text(float);
       sign = float < 0.0 ? 1 : 0;
@@ -43,7 +43,20 @@
       $(".mantissa").text(mantissa);
       $(".mantissa-bin").text(mantissa_str);
       $(".result").text(sign + " " + exponent_str + " " + mantissa_str);
-      return $(".confirmation").text(float + " = " + mantissa + " * 2^" + exponent);
+      exp = Math.pow(2, parseInt(exponent_str, 2) - 127);
+      mant = 1;
+      temp = 1;
+      for (i = j = 0, ref = mantissa_str.length; j < ref; i = j += 1) {
+        temp /= 2;
+        if (mantissa_str[i] === '1') {
+          mant += temp;
+        }
+      }
+      from_bin = exp * mant;
+      if (sign === 1) {
+        from_bin *= -1;
+      }
+      return $(".decimal-from-bin").text(from_bin);
     };
   });
 

@@ -1,1 +1,1 @@
-# ieee754-dec-to-bin
+# IEEE 754 float to binary converter
